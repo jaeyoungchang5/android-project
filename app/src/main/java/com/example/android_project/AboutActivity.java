@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class AboutActivity extends AppCompatActivity {
 
     private TextView mDisplayAboutTextView;
@@ -34,10 +32,8 @@ public class AboutActivity extends AppCompatActivity {
             mShowAbbreviations.append(" - " + abbr + "\n");
         }
 
-        // TODO get string message and display here
-
-        final String urlSource = "http://www.nactem.ac.uk/software/acromine/"; // url string
-        final String abrevSource = "https://acronyms.thefreedictionary.com";
+        final String urlSource = "http://www.nactem.ac.uk/software/acromine/"; // url string for API source
+        final String abrevSource = "https://acronyms.thefreedictionary.com"; // url string for other popular acronyms
         // open webpage button
         mOpenWebpageButton.setOnClickListener(
                 new View.OnClickListener(){
@@ -55,10 +51,8 @@ public class AboutActivity extends AppCompatActivity {
                     public void onClick(View v){
                         openWebPage(abrevSource);
                     } // end of onClick method
-
                 } // end of View
         ); // end of setOnClickListener
-
 
     } // end of onCreate method
 
@@ -67,10 +61,7 @@ public class AboutActivity extends AppCompatActivity {
         Uri webpage = Uri.parse(urlString);
 
         Intent openWebPageIntent = new Intent(Intent.ACTION_VIEW, webpage);
-        // check if that intent can be launched, and then launch it
-        if(openWebPageIntent.resolveActivity(getPackageManager()) != null){
-            startActivity(openWebPageIntent);
-        }
+        startActivity(openWebPageIntent);
     } // end of open web page
 
 } // end of class AboutActivity

@@ -17,17 +17,17 @@ import java.util.Scanner;
 public class NetworkUtils {
 
     // this method is specific to the countries URL
-    public static URL buildCountriesUrl(String searchTerm){
+    public static URL buildAcronymsUrl(String searchTerm){
         // get string url
-        String countryUrlString = "http://www.nactem.ac.uk/software/acromine/dictionary.py?sf=" + searchTerm;
-        URL countryUrl = null;
+        String acronymUrlString = "http://www.nactem.ac.uk/software/acromine/dictionary.py?sf=" + searchTerm;
+        URL acronymUrl = null;
         try{
-            countryUrl = new URL(countryUrlString);
+            acronymUrl = new URL(acronymUrlString);
         }catch(MalformedURLException e){
             e.printStackTrace();
         }
-        Log.d("debug", "country url in networks util: " + countryUrl);
-        return countryUrl;
+        Log.d("debug", "acronym url in networks util: " + acronymUrl);
+        return acronymUrl;
     }
 
     // this method can be used with any URL object
@@ -53,37 +53,21 @@ public class NetworkUtils {
         return null;
     }
 
-    public static ArrayList<String> parseCountriesJson(String countriesResponseString){
-        ArrayList<String> countryList = new ArrayList<String>();
+    public static ArrayList<String> parseAcronymsJson(String acronymsResponseString){
+        ArrayList<String> acronymList = new ArrayList<String>();
         try{
-            JSONArray jarr = new JSONArray(countriesResponseString);
+            JSONArray jarr = new JSONArray(acronymsResponseString);
             JSONObject jobj = (JSONObject)jarr.get(0);
             JSONArray acronyms = (JSONArray)jobj.get("lfs");
             for (int i = 0; i < acronyms.length(); i++){
                 JSONObject acronym = (JSONObject)acronyms.get(i);
                 String acronymStr = (String)acronym.get("lf");
-                countryList.add(acronymStr);
+                acronymList.add(acronymStr);
             }
-
-//            JSONObject allCountriesObject = new JSONObject(countriesResponseString);
-//            JSONArray allCountriesArray = allCountriesObject.getJSONArray("results");
-//            //countryList = new String[allCountriesArray.length()];
-//
-//            for(int i = 0; i < allCountriesArray.length(); i++){
-//                JSONObject childJson = allCountriesArray.getJSONObject(i);
-//                // check if it has name
-//                if(childJson.has("name")){
-//                    String name = childJson.getString("name");
-//                    if(name != null) {
-//                        countryList.add(name);
-//                        Log.d("country", name);
-//                    }
-//                }
-//            } // end for
         } catch(JSONException e){
             e.printStackTrace();
         }
-        return countryList;
+        return acronymList;
     }
 
 

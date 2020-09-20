@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
         mSearchButton = (Button) findViewById(R.id.search_button);
         mResetButton = (Button) findViewById(R.id.reset_button);
 
-        makeNetworkSearchQuery();
+        mSearchResultsDisplay.setText("\nRESULTS : \n\n");
 
         // reset button
         mResetButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        makeNetworkSearchQuery();
                         mSearchTermEditText.setText("");
+                        mSearchResultsDisplay.setText("\nRESULTS : \n\n");
                     }
                 }
         );
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void makeNetworkSearchQuery(){
         String searchTerm = mSearchTermEditText.getText().toString();
-        mSearchResultsDisplay.setText("Results : \n\n");
+        mSearchResultsDisplay.setText("\nRESULTS : \n\n");
         new FetchNetworkData().execute(searchTerm);
 
     }
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             if(params.length == 0) return null;
             String searchTerm = params[0];
             // get the Url
-            URL searchUrl = NetworkUtils.buildCountriesUrl(searchTerm); // write class and method
+            URL searchUrl = NetworkUtils.buildAcronymsUrl(searchTerm); // write class and method
             Log.d("debug", "search url in main activity" + searchUrl);
 
             // get the response from the URl
@@ -121,8 +121,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String responseData){
-            ArrayList<String> titles = NetworkUtils.parseCountriesJson(responseData); //
+            ArrayList<String> titles = NetworkUtils.parseAcronymsJson(responseData); //
             // display entries in GUI
+            if (titles.size() == 0){
+                mSearchResultsDisplay.append("\nNo results found.");
+            }
             for(String title: titles){
                 mSearchResultsDisplay.append("\n\n" + title);
             }
